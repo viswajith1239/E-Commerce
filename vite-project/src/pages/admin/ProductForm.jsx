@@ -137,12 +137,13 @@ const ProductForm = () => {
     <Layout>
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-white ">
             {id ? 'Edit Product' : 'Add New Product'}
           </h1>
           <Button
             variant="ghost"
             onClick={() => navigate('/admin/products')}
+            className="text-white hover:text-blue-900"
           >
             Cancel
           </Button>
@@ -164,20 +165,21 @@ const ProductForm = () => {
                 onChange={handleChange}
                 error={formErrors.name}
                 required
+                className="bg-white text-black"
               />
 
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Description
                 </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  className={`textarea ${formErrors.description ? 'border-red-500' : ''}`}
-                  rows="4"
-                  required
-                />
+               <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    className={`textarea border-2 border-gray-300 focus:border-blue-500 ${formErrors.description ? 'border-red-500' : ''} bg-white text-black`}
+                    rows="4"
+                    required
+                  />
                 {formErrors.description && (
                   <p className="text-red-500 text-xs italic mt-1">
                     {formErrors.description}
@@ -195,6 +197,7 @@ const ProductForm = () => {
                 step="0.01"
                 min="0"
                 required
+                 className='bg-white text-black'
               />
 
               <div>
@@ -205,7 +208,8 @@ const ProductForm = () => {
                   name="stock"   
                   value={formData.stock}
                   onChange={handleChange}
-                  className="select"
+                  className="select bg-white text-black"
+                  
                 >
                   <option value="in_stock">In Stock</option>
                   <option value="out_of_stock">Out of Stock</option>

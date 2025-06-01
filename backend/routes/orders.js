@@ -170,16 +170,21 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
 
 // Get user's orders
 router.get('/my-orders', protect, async (req, res) => {
+  console.log("entered in to my orders");
+  
   try {
     const orders = await Order.find({ user: req.user._id })
       .populate('products.product')
       .sort('-createdAt');
+    console.log("orders",orders);
 
     res.json({
       success: true,
       orders
     });
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json({
       success: false,
       message: 'Error fetching orders',

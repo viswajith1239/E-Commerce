@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { logout } from '../../features/auth/authSlice';
 
 const Layout = ({ children }) => {
@@ -22,7 +24,7 @@ const Layout = ({ children }) => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="text-xl font-bold text-white hover:text-blue-200">
-              E-Commerce
+            Vesture
             </Link>
 
             {/* Navigation Links */}
@@ -93,6 +95,9 @@ const Layout = ({ children }) => {
           </p>
         </div>
       </footer>
+
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 };

@@ -40,13 +40,19 @@ const Login = () => {
     return errors;
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-    // Clear field error when user starts typing
+  const handleChange = (event) => {
+    console.log('Input changed:', event.target.name, event.target.value);
+    const { name, value } = event.target;
+    
+    setFormData((prevState) => {
+      const newState = {
+        ...prevState,
+        [name]: value
+      };
+      console.log('New form state:', newState);
+      return newState;
+    });
+
     if (formErrors[name]) {
       setFormErrors((prev) => ({
         ...prev,
@@ -57,14 +63,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form submitted with data:', formData);
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
-
     await dispatch(login(formData));
   };
+
+  console.log('Current form data:', formData);
 
   return (
     <Layout>
@@ -72,33 +80,35 @@ const Login = () => {
         <Card>
           <CardBody>
             <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 label="Email"
                 type="email"
                 name="email"
-                value={formData.email}
+                value={formData.email || ''}
                 onChange={handleChange}
                 error={formErrors.email}
                 placeholder="Enter your email"
+                required
               />
               <Input
                 label="Password"
                 type="password"
                 name="password"
-                value={formData.password}
+                value={formData.password || ''}
                 onChange={handleChange}
                 error={formErrors.password}
                 placeholder="Enter your password"
+                required
               />
               {error && (
-                <div className="text-red-500 text-sm mb-4">
+                <div className="text-red-500 text-sm">
                   {error}
                 </div>
               )}
               <Button
                 type="submit"
-                className="w-full bg-blue-500 text-white"
+                className="w-full"
                 isLoading={isLoading}
               >
                 Login

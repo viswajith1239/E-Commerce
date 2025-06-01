@@ -5,7 +5,7 @@ import { protect } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-// Login route with automatic registration
+// Login route
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -13,27 +13,27 @@ router.post('/login', async (req, res) => {
 
     // Check if user exists
     let user = await User.findOne({ email });
-    
     if (!user) {
-      console.log('User not found, creating new user:', email);
-      // Create new user (password hashing is handled by User model's pre-save middleware)
+      // Create new user if not found
+      console.log('Creating new user:', email);
       user = await User.create({
         email,
-        password,
-        role: 'user',
+        password
       });
-      console.log('New user created:', email);
     } else {
-      // Check password for existing user
-      const isMatch = await user.comparePassword(password);
-      console.log('Password match:', isMatch);
-      
-      if (!isMatch) {
-        return res.status(401).json({
-          success: false,
-          message: 'Invalid password',
-        });
-      }
+      console.log('Found existing user:', user.email);
+    }
+
+    // Check password
+    const isMatch = await user.comparePassword(password);
+    console.log('Password match:', isMatch);
+    
+    if (!isMatch) {
+      console.log('Invalid password for user:', email);
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
     }
 
     // Create token
@@ -47,25 +47,25 @@ router.post('/login', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
 
     console.log('Login successful for:', email);
-
+    
     res.json({
       success: true,
       user: {
         id: user._id,
         email: user.email,
-        role: user.role,
-      },
+        role: user.role
+      }
     });
   } catch (error) {
-    console.error('Login/Registration error:', error);
+    console.error('Login error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error processing login',
-      error: error.message,
+      message: 'Error logging in',
+      error: error.message
     });
   }
 });
@@ -74,7 +74,7 @@ router.post('/login', async (req, res) => {
 router.post('/logout', (req, res) => {
   res.cookie('token', '', {
     httpOnly: true,
-    expires: new Date(0),
+    expires: new Date(0)
   });
   res.json({ success: true, message: 'Logged out successfully' });
 });
@@ -83,8 +83,8 @@ router.post('/logout', (req, res) => {
 router.get('/me', protect, async (req, res) => {
   res.json({
     success: true,
-    user: req.user,
+    user: req.user
   });
 });
 
-export default router;
+export default router; 

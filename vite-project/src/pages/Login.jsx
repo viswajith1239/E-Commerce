@@ -6,6 +6,7 @@ import Layout from '../components/layout/Layout';
 import Card, { CardBody } from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
+import toast,{Toaster} from 'react-hot-toast';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +21,10 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      toast.success("successfully loggged in!")
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     }
     return () => {
       dispatch(clearError());
@@ -67,20 +71,22 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+  <Layout>
       <div className="max-w-md mx-auto">
+        <Toaster/>
         <Card>
           <CardBody>
-            <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+            <h2 className="text-2xl font-bold text-center mb-6  text-black">Login</h2>
             <form onSubmit={handleSubmit}>
               <Input
                 label="Email"
-                type="email"
+                type="email" 
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 error={formErrors.email}
                 placeholder="Enter your email"
+                className='bg-white text-black'
               />
               <Input
                 label="Password"
@@ -90,6 +96,7 @@ const Login = () => {
                 onChange={handleChange}
                 error={formErrors.password}
                 placeholder="Enter your password"
+                 className='bg-white text-black'
               />
               {error && (
                 <div className="text-red-500 text-sm mb-4">
@@ -98,7 +105,7 @@ const Login = () => {
               )}
               <Button
                 type="submit"
-                className="w-full bg-blue-500 text-white"
+                className="w-full bg-blue-900 hover:bg-blue-900 text-white"
                 isLoading={isLoading}
               >
                 Login
@@ -108,6 +115,7 @@ const Login = () => {
         </Card>
       </div>
     </Layout>
+    
   );
 };
 

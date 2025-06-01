@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { getProduct } from '../features/products/productSlice';
 import { addToCart } from '../features/cart/cartSlice';
 import Layout from '../components/layout/Layout';
@@ -10,8 +11,10 @@ import Loading from '../components/ui/Loading';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { product, isLoading, error } = useSelector((state) => state.products);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -19,7 +22,23 @@ const ProductDetail = () => {
   }, [dispatch, id]);
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast.error('Please login first to add items to cart', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      navigate('/login');
+      return;
+    }
     dispatch(addToCart({ product, quantity }));
+    toast.success('Item added to cart!', {
+      position: 'top-right',
+      autoClose: 2000,
+    });
   };
 
   if (isLoading) {

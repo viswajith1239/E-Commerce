@@ -56,7 +56,7 @@ const Cart = () => {
   return (
     <Layout>
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold text-white mb-5">Shopping Cart</h1>
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-8">
             <Card>

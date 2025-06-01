@@ -36,6 +36,7 @@ export const getMyOrders = createAsyncThunk(
   'orders/getMyOrders',
   async (_, { rejectWithValue }) => {
     try {
+      console.log("entered in to get my orders slice");
       const response = await axiosInstance.get(`${API_URL}/my-orders`);
       console.log('Orders response:', response.data);
       

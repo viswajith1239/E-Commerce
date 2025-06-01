@@ -7,17 +7,25 @@ import Layout from '../components/layout/Layout';
 import Card, { CardBody } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Loading from '../components/ui/Loading';
+import toast,{Toaster} from 'react-hot-toast';
 
 const Products = () => {
   const dispatch = useDispatch();
   const { products, isLoading, error } = useSelector((state) => state.products);
+   const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
   const handleAddToCart = (product) => {
-    dispatch(addToCart({ product, quantity: 1 }));
+    if(!isAuthenticated){
+      toast.error("please login first!")
+    }else{
+     dispatch(addToCart({ product, quantity: 1 }));
+     toast.success("Product successfully added to cart")
+    }
+   
   };
 
   if (isLoading) {
@@ -42,6 +50,7 @@ const Products = () => {
 
   return (
     <Layout>
+      <Toaster/>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products.map((product) => (
           <Card key={product._id}>
@@ -75,7 +84,7 @@ const Products = () => {
                 </span>
               </div>
               <Button
-                className="w-full mt-4"
+                className="w-full mt-4 bg-blue-900 hover:bg-blue-900"
                 onClick={() => handleAddToCart(product)}
                 disabled={product.status === 'out_of_stock'}
               >

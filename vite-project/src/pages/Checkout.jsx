@@ -160,7 +160,7 @@ const Checkout = () => {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold text-white mb-8">Checkout</h1>
         <div className="grid gap-8 md:grid-cols-2">
           {/* Shipping Address */}
           <Card>
@@ -175,6 +175,7 @@ const Checkout = () => {
                   value={shippingAddress.fullName}
                   onChange={handleAddressChange}
                   required
+                  className="bg-white text-black"
                 />
                 <Input
                   label="Address Line 1"
@@ -182,12 +183,14 @@ const Checkout = () => {
                   value={shippingAddress.addressLine1}
                   onChange={handleAddressChange}
                   required
+                  className="bg-white text-black"
                 />
                 <Input
                   label="Address Line 2 (Optional)"
                   name="addressLine2"
                   value={shippingAddress.addressLine2}
                   onChange={handleAddressChange}
+                  className="bg-white text-black"
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <Input
@@ -196,6 +199,7 @@ const Checkout = () => {
                     value={shippingAddress.city}
                     onChange={handleAddressChange}
                     required
+                    className="bg-white text-black"
                   />
                   <Input
                     label="State"
@@ -203,6 +207,7 @@ const Checkout = () => {
                     value={shippingAddress.state}
                     onChange={handleAddressChange}
                     required
+                    className="bg-white text-black"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -212,6 +217,8 @@ const Checkout = () => {
                     value={shippingAddress.postalCode}
                     onChange={handleAddressChange}
                     required
+                    className="bg-white text-black"
+                    
                   />
                   <Input
                     label="Country"
@@ -219,6 +226,7 @@ const Checkout = () => {
                     value={shippingAddress.country}
                     onChange={handleAddressChange}
                     required
+                    className="bg-white text-black"
                   />
                 </div>
               </div>
@@ -255,44 +263,58 @@ const Checkout = () => {
         </div>
 
         {/* Order Summary */}
-        <Card className="mt-8">
-          <CardBody>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Order Summary
-            </h2>
-            <div className="space-y-4">
-              {items.map((item) => (
-                <div
-                  key={item._id}
-                  className="flex justify-between items-center"
-                >
-                  <div className="flex items-center">
-                    <img
-                      src={`http://localhost:5000${item.imageUrl}`}
-                      alt={item.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                    <div className="ml-4">
-                      <div className="font-semibold">{item.name}</div>
-                      <div className="text-gray-600">
-                        Quantity: {item.quantity}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="font-semibold">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </div>
-                </div>
-              ))}
-              <div className="border-t pt-4">
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Total</span>
-                  <span>${totalAmount.toFixed(2)}</span>
-                </div>
+       <Card className="mt-8">
+  <CardBody>
+    <h2 className="text-xl font-bold text-gray-900 mb-4">
+      Order Summary
+    </h2>
+    <div className="space-y-4">
+      {items.map((item) => (
+        <div
+          key={item._id}
+          className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0"
+        >
+          <div className="flex items-center flex-1">
+            <img
+              src={`http://localhost:5000${item.imageUrl}`}
+              alt={item.name}
+              className="w-16 h-16 object-cover rounded"
+            />
+            <div className="ml-4 flex-1">
+              <div className="font-semibold text-gray-900 text-sm">
+                {item.name}
+              </div>
+              <div className="text-gray-600 text-sm mt-1">
+                Qty: {item.quantity} × ${item.price.toFixed(2)}
               </div>
             </div>
-          </CardBody>
-        </Card>
+          </div>
+          <div className="font-semibold text-gray-900 ml-4">
+            ${(item.price * item.quantity).toFixed(2)}
+          </div>
+        </div>
+      ))}
+      
+      {/* Subtotal and Total Section */}
+      <div className="border-t border-gray-200 pt-4 space-y-2">
+        <div className="flex justify-between text-sm text-gray-600">
+          <span>Subtotal ({items.length} items)</span>
+          <span>${totalAmount.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between text-sm text-gray-600">
+          <span>Shipping</span>
+          <span>Free</span>
+        </div>
+        <div className="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
+          <span>Total</span>
+          <span>${totalAmount.toFixed(2)}</span>
+        </div>
+      </div>
+    </div>
+  </CardBody>
+</Card>
+
+
       </div>
 
       {processing && (

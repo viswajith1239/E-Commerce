@@ -1,9 +1,6 @@
-/* @import "tailwindcss"; */
-/* ✅ Correct way to include Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 @layer components {
   .container {
@@ -19,35 +16,126 @@
     @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
   }
   .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white;
   }
 }
 
-/* Base styles */
+/* COMPLETE RESET - This fixes the white space issue */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Full screen layout - FIXED VERSION */
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  /* Hide scrollbar but keep functionality */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
 body {
-  @apply m-0 font-sans text-gray-900 bg-white;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #111827;
+  background-color: #ffffff;
+  /* Hide scrollbar but keep functionality */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
-/* Reset focus styles */
+body::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Root app container - flexible height */
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh; /* Back to min-height for scrolling */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  /* Hide scrollbar but keep functionality */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+#root::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Main app container - flexible height */
+.app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh; /* Back to min-height for scrolling */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+/* Page containers - flexible height */
+.page-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh; /* Back to min-height for scrolling */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+/* Layout component - flexible height */
+.layout {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh; /* Back to min-height for scrolling */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+/* Focus styles */
 :focus {
-  @apply outline-none ring-2 ring-blue-500;
+  outline: none;
 }
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/* Link styles */
 a {
   font-weight: 500;
   color: #646cff;
@@ -57,47 +145,120 @@ a:hover {
   color: #535bf2;
 }
 
-body {
+/* Updated utility classes */
+.full-screen {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh; /* Back to min-height for scrolling */
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  /* Hide scrollbar but keep functionality */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.full-screen::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
 }
 
+.full-width {
+  width: 100%;
+  max-width: 100vw;
+}
+
+.full-height {
+  min-height: 100vh; /* Back to min-height for scrolling */
+}
+
+/* Additional utility for pages that need scrolling */
+.scrollable-page {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh; /* Back to min-height for scrolling */
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Hide scrollbar but keep functionality */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollable-page::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Remove default margins from common elements */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+p, div, span {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove default list styling */
+ul, ol, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Remove default form element spacing */
+form, input, button, textarea, select {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure no unwanted spacing on images */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Remove default button styling */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  border: none;
+  background: none;
   font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Additional utility to prevent scrollbars */
+.no-scrollbar {
+  overflow: hidden;
+}
+
+.no-vertical-scrollbar {
+  overflow-y: hidden;
+}
+
+.no-horizontal-scrollbar {
+  overflow-x: hidden;
+}
+
+/* Hide scrollbars but keep scroll functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Ensure all containers respect viewport dimensions */
+.container-fluid {
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
 }
