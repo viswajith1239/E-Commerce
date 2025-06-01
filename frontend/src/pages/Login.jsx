@@ -6,6 +6,7 @@ import Layout from '../components/layout/Layout';
 import Card, { CardBody } from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
+import toast,{Toaster} from 'react-hot-toast';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +21,10 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      toast.success("successfully loggged in!")
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     }
     return () => {
       dispatch(clearError());
@@ -40,19 +44,13 @@ const Login = () => {
     return errors;
   };
 
-  const handleChange = (event) => {
-    console.log('Input changed:', event.target.name, event.target.value);
-    const { name, value } = event.target;
-    
-    setFormData((prevState) => {
-      const newState = {
-        ...prevState,
-        [name]: value
-      };
-      console.log('New form state:', newState);
-      return newState;
-    });
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear field error when user starts typing
     if (formErrors[name]) {
       setFormErrors((prev) => ({
         ...prev,
@@ -63,52 +61,51 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData);
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
+
     await dispatch(login(formData));
   };
 
-  console.log('Current form data:', formData);
-
   return (
-    <Layout>
+  <Layout>
       <div className="max-w-md mx-auto">
+        <Toaster/>
         <Card>
           <CardBody>
-            <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <h2 className="text-2xl font-bold text-center mb-6  text-black">Login</h2>
+            <form onSubmit={handleSubmit}>
               <Input
                 label="Email"
-                type="email"
+                type="email" 
                 name="email"
-                value={formData.email || ''}
+                value={formData.email}
                 onChange={handleChange}
                 error={formErrors.email}
                 placeholder="Enter your email"
-                required
+                className='bg-white text-black'
               />
               <Input
                 label="Password"
                 type="password"
                 name="password"
-                value={formData.password || ''}
+                value={formData.password}
                 onChange={handleChange}
                 error={formErrors.password}
                 placeholder="Enter your password"
-                required
+                 className='bg-white text-black'
               />
               {error && (
-                <div className="text-red-500 text-sm">
+                <div className="text-red-500 text-sm mb-4">
                   {error}
                 </div>
               )}
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-blue-900 hover:bg-blue-900 text-white"
                 isLoading={isLoading}
               >
                 Login
@@ -118,6 +115,7 @@ const Login = () => {
         </Card>
       </div>
     </Layout>
+    
   );
 };
 
